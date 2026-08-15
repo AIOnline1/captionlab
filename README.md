@@ -53,8 +53,8 @@ The deploy script publishes `aliinha/ugc-pipeline:captions-v3` and requires Dock
 - The worker deletes its temporary job directory after every job.
 - Only caption videos you own or have permission to process.
 
-## Private repository sharing
+## Public repository sharing
 
-This repository belongs to the personal GitHub account `AIOnline1` and stays private. Add a collaborator through repository **Settings -> Collaborators** using the person's GitHub username, and have them accept the invitation while signed in to GitHub. Never share `.env`, API, Docker, or S3 credentials, and never use generated media as a repository-sharing mechanism.
+This public repository belongs to the personal GitHub account `AIOnline1`. Anyone can clone/read it; only grant collaborator access when someone needs to push changes. Never share `.env`, API, Docker, or S3 credentials, and never use generated media as a repository-sharing mechanism.
 
-GitHub repository access and Runpod access are separate. A collaborator who needs to inspect or manage endpoint `2qmk512pi39ec2` must receive Runpod account access separately or deploy the worker in their own Runpod account. Do not make this repository public to bypass either access control.
+Public GitHub source access and Runpod access are separate. Someone who needs to inspect or manage endpoint `2qmk512pi39ec2` must receive Runpod account access separately or deploy the worker in their own Runpod account.

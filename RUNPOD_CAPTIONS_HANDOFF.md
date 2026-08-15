@@ -55,31 +55,23 @@ Yes, this can caption ordinary uploaded videos accurately, but "any video" has p
 
 The Markdown file is an operating guide, not a self-contained hosted service. To run the system, the agent also needs either the caption source files in the private `captionlab` repository, access to the existing worker image/endpoint, or permission to deploy a new endpoint. The document never contains a Runpod API key.
 
-## Private GitHub repository and sharing
+## Public GitHub repository and sharing
 
-The caption worker source is mirrored in the private repository:
+The caption worker source is mirrored in the public personal repository:
 
 <https://github.com/AIOnline1/captionlab>
 
-The repository contains only caption-specific source, Docker/build files, the pinned worker dependencies, and this handoff. It deliberately excludes `.env` files, API keys, Docker credentials, generated videos, audio, and unrelated UGC integrations.
-
-To share it with another person:
-
-1. Open the repository on GitHub while signed in as the owner.
-2. Go to **Settings -> Collaborators**.
-3. Add the person's GitHub username.
-4. Have them accept the invitation while signed in to GitHub.
-5. Their coding agent can then clone/read the private repository using their normal GitHub access.
+The repository contains only caption-specific source, Docker/build files, the pinned worker dependencies, and this handoff. It deliberately excludes `.env` files, API keys, Docker credentials, generated videos, audio, and unrelated UGC integrations. Anyone can clone/read it; only the owner can push unless explicit write access is granted.
 
 Share only:
 
-- the private GitHub collaborator invitation;
+- the public repository URL;
 - this `RUNPOD_CAPTIONS_HANDOFF.md` file (already stored in the repository);
 - the endpoint ID `2qmk512pi39ec2` when they are meant to inspect the existing deployment.
 
 Do not share `.env`, Runpod API keys, Docker Hub passwords/tokens, S3 credentials, or generated customer media. If the collaborator must manage the existing endpoint, grant Runpod account access separately through the account's supported login/OAuth controls. Otherwise they should deploy into their own Runpod account.
 
-Do not make the repository public just to let an agent read it. Repository access and Runpod access are separate: the collaborator also needs access to the Runpod account/endpoint, or they must authenticate their own Runpod account and deploy the worker image there.
+Public source access does not grant Runpod access. A collaborator also needs access to the Runpod account/endpoint, or must authenticate their own Runpod account and deploy the worker image there.
 
 ## Important cost warning
 
