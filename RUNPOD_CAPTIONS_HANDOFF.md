@@ -206,6 +206,8 @@ The worker accepts either:
 
 The existing gateway accepts uploaded MP4, MOV, WEBM, and M4V files up to 200 MB. It sends files inline when they are at most approximately 6.5 MB. Larger files require the optional S3-compatible input path.
 
+In the hosted UGC browser, authenticated uploads are first written directly to the owner's private Supabase `videos/{user-id}/caption-input/...` folder. The browser then sends only `uploaded_storage_path` through Vercel, avoiding Vercel's multipart request limit. The gateway validates the owner prefix, downloads the object, and deletes that staged input. Other platforms may use this same pattern or the documented S3-compatible path.
+
 The worker accepts these input fields:
 
 ```json
@@ -368,6 +370,8 @@ The exact default visual values are defined in `caption_engine.py`. Do not repro
 
 CaptionLab can override presets with approved fonts including Manrope, Space Grotesk, Barlow Condensed, Archivo Black, Bebas Neue, Playfair Display, DM Mono, IBM Plex Mono, and the DejaVu sans/serif/mono families. The v3 worker packages the same custom faces used by the browser preview.
 
+Verified v3 font test: libass resolved `Manrope` weight 700 to `/usr/local/share/fonts/ugc/Manrope.ttf`. The burned ASS outline and shadow are intentionally heavier than the browser's clean example, so compare letter shapes rather than expecting identical anti-aliasing.
+
 Default `pop` style:
 
 ```text
@@ -447,6 +451,7 @@ words_per_group: integer 1 through 8
 words: optional JSON timed-word array
 style_config: optional JSON object
 source_video_id: optional local library source ID
+uploaded_storage_path: optional owner-scoped private Supabase path for browser uploads
 ```
 
 ### Poll status
