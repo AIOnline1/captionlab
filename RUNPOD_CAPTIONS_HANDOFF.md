@@ -59,7 +59,7 @@ The Markdown file is an operating guide, not a self-contained hosted service. To
 
 The caption worker source is mirrored in the private repository:
 
-<https://github.com/ainha_rokughcp/captionlab>
+<https://github.com/AIOnline1/captionlab>
 
 The repository contains only caption-specific source, Docker/build files, the pinned worker dependencies, and this handoff. It deliberately excludes `.env` files, API keys, Docker credentials, generated videos, audio, and unrelated UGC integrations.
 
