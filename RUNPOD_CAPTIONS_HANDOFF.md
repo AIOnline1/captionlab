@@ -198,7 +198,7 @@ The worker accepts either:
 
 The existing gateway accepts uploaded MP4, MOV, WEBM, and M4V files up to 200 MB. It sends files inline when they are at most approximately 6.5 MB. Larger files require the optional S3-compatible input path.
 
-In the hosted UGC browser, authenticated uploads are first written directly to the owner's private Supabase `videos/{user-id}/caption-input/...` folder. The browser then sends only `uploaded_storage_path` through Vercel, avoiding Vercel's multipart request limit. The gateway validates the owner prefix, downloads the object, and deletes that staged input. Other platforms may use this same pattern or the documented S3-compatible path.
+In the hosted UGC browser, the cookie-authenticated gateway first issues a short-lived signed URL for the owner's private Supabase `videos/{user-id}/caption-input/...` folder. The browser uploads directly to that URL, then sends only `uploaded_storage_path` through Vercel, avoiding Vercel's multipart request limit. The gateway validates the owner prefix, downloads the object, and deletes that staged input. Other platforms may use this same pattern or the documented S3-compatible path.
 
 The worker accepts these input fields:
 
