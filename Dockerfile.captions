@@ -1,0 +1,33 @@
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    CAPTION_MODEL=large-v3 \
+    CAPTION_DEVICE=cuda \
+    CAPTION_COMPUTE_TYPE=float16 \
+    HF_HOME=/opt/caption-model-cache \
+    CAPTION_JOB_ROOT=/tmp/ugc-captions
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 python3-pip ffmpeg fonts-dejavu ca-certificates curl fontconfig \
+    && mkdir -p /usr/local/share/fonts/ugc \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/Manrope.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/SpaceGrotesk.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-Bold.ttf" -o /usr/local/share/fonts/ugc/BarlowCondensed.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/archivoblack/ArchivoBlack-Regular.ttf" -o /usr/local/share/fonts/ugc/ArchivoBlack.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/dmmono/DMMono-Medium.ttf" -o /usr/local/share/fonts/ugc/DMMono.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-SemiBold.ttf" -o /usr/local/share/fonts/ugc/IBMPlexMono.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/PlayfairDisplay.ttf \
+    && curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/bebasneue/BebasNeue-Regular.ttf" -o /usr/local/share/fonts/ugc/BebasNeue.ttf \
+    && fc-cache -f \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m pip install --no-cache-dir --upgrade pip
+
+WORKDIR /opt/ugc
+COPY requirements.captions.txt /opt/ugc/requirements.captions.txt
+RUN python3 -m pip install --no-cache-dir -r /opt/ugc/requirements.captions.txt
+COPY caption_engine.py caption_worker.py /opt/ugc/
+RUN mkdir -p /opt/caption-model-cache \
+    && python3 -c "from faster_whisper import WhisperModel; WhisperModel('large-v3', device='cpu', compute_type='int8')"
+
+ENTRYPOINT ["python3", "/opt/ugc/caption_worker.py"]

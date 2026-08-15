@@ -1,0 +1,18 @@
+FROM aliinha/ugc-pipeline:captions-v1
+
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends curl fontconfig \
+	&& mkdir -p /usr/local/share/fonts/ugc \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/Manrope.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/SpaceGrotesk.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-Bold.ttf" -o /usr/local/share/fonts/ugc/BarlowCondensed.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/archivoblack/ArchivoBlack-Regular.ttf" -o /usr/local/share/fonts/ugc/ArchivoBlack.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/dmmono/DMMono-Medium.ttf" -o /usr/local/share/fonts/ugc/DMMono.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-SemiBold.ttf" -o /usr/local/share/fonts/ugc/IBMPlexMono.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf" -o /usr/local/share/fonts/ugc/PlayfairDisplay.ttf \
+	&& curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/bebasneue/BebasNeue-Regular.ttf" -o /usr/local/share/fonts/ugc/BebasNeue.ttf \
+	&& fc-cache -f \
+	&& rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/ugc
+COPY caption_engine.py caption_worker.py /opt/ugc/

@@ -1,0 +1,30 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Media and generated outputs
+*.mp4
+*.mov
+*.webm
+*.m4v
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+*.ass
+*.jsonl
+
+# Logs and local job data
+*.log
+.jobs/
+/tmp/
